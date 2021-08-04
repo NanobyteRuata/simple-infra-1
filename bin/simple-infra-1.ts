@@ -2,20 +2,11 @@
 import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import { SimpleInfra1Stack } from '../lib/simple-infra-1-stack';
+import { SimpleEC2Stack } from '../lib/simple-ec2-stack';
 
 const app = new cdk.App();
-new SimpleInfra1Stack(app, 'SimpleInfra1Stack', {
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
-
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
-
-  /* Uncomment the next line if you know exactly what Account and Region you
-   * want to deploy the stack to. */
-  // env: { account: '123456789012', region: 'us-east-1' },
-
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+const { instance } = new SimpleEC2Stack(app, 'SimpleEC2Stack');
+new SimpleInfra1Stack(app, 'SimpleInfra1Stack', { 
+  instanceId: instance.instanceId, 
+  instancePublicIp: instance.instancePublicIp
 });
