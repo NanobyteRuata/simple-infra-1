@@ -5,6 +5,7 @@ import * as path from 'path';
 import { Runtime } from '@aws-cdk/aws-lambda';
 import { CorsHttpMethod, HttpApi, HttpMethod } from '@aws-cdk/aws-apigatewayv2';
 import { LambdaProxyIntegration } from '@aws-cdk/aws-apigatewayv2-integrations';
+import { PolicyStatement } from '@aws-cdk/aws-iam';
 
 require('dotenv').config()
 
@@ -24,10 +25,10 @@ export class SimpleInfra1Stack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: SimpleInfra1StackProps) {
     super(scope, id, {...props, env: config.env});
 
-    const baseEndpointHandler = new lambda.NodejsFunction(this, 'SimpleInfra1BaseEndPointHandler', {
+    const infra1EndpointHandler = new lambda.NodejsFunction(this, 'SimpleInfra1EndPointHandler', {
       runtime: Runtime.NODEJS_12_X,
-      entry: path.join(__dirname, '..', 'api', 'base-endpoint', 'index.ts'),
-      handler: 'baseEndpoint',
+      entry: path.join(__dirname, '..', 'api', 'infra-1-endpoint', 'index.ts'),
+      handler: 'infra1Endpoint',
       environment: {
         SIMPLE_INFRA_1_INSTANCE_ID: props.instanceId,
         SIMPLE_INFRA_1_INSTANCE_PUBLIC_IP: props.instancePublicIp
@@ -43,14 +44,14 @@ export class SimpleInfra1Stack extends cdk.Stack {
       createDefaultStage: true
     });
 
-    const baseEndpointHandlerIntegration = new LambdaProxyIntegration({
-      handler: baseEndpointHandler
+    const infra1EndpointHandlerIntegration = new LambdaProxyIntegration({
+      handler: infra1EndpointHandler
     });
 
     httpApi.addRoutes({
       path: '/',
       methods: [ HttpMethod.GET ],
-      integration: baseEndpointHandlerIntegration
+      integration: infra1EndpointHandlerIntegration
     });
 
     // Outputs

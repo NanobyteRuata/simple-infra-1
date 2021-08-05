@@ -1,0 +1,152 @@
+{
+  "Resources": {
+    "SimpleEC2Instance1Role0462CADF": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "SimpleEC2Stack/SimpleEC2Instance1Role/Resource"
+      }
+    },
+    "SimpleEC2Instance1SGEF604BDA": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "SimpleEC2Stack/SimpleEC2Instance1SG",
+        "GroupName": "SimpleEC2Instance1SG",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allows SSH access from Internet",
+            "FromPort": 22,
+            "IpProtocol": "tcp",
+            "ToPort": 22
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allows HTTP access from Internet",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allows HTTPS access from Internet",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443
+          }
+        ],
+        "VpcId": "vpc-07bd7661"
+      },
+      "Metadata": {
+        "aws:cdk:path": "SimpleEC2Stack/SimpleEC2Instance1SG/Resource"
+      }
+    },
+    "SimpleEC2Instance1InstanceProfileF7476A12": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "SimpleEC2Instance1Role0462CADF"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "SimpleEC2Stack/SimpleEC2Instance1/InstanceProfile"
+      }
+    },
+    "SimpleEC2Instance1C9F7789C": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "AvailabilityZone": "ap-southeast-1a",
+        "IamInstanceProfile": {
+          "Ref": "SimpleEC2Instance1InstanceProfileF7476A12"
+        },
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+        },
+        "InstanceType": "t2.micro",
+        "KeyName": "SimpleInfra1Instance1Key",
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "SimpleEC2Instance1SGEF604BDA",
+              "GroupId"
+            ]
+          }
+        ],
+        "SubnetId": "subnet-a86dc1e0",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "SimpleEC2Stack/SimpleEC2Instance1"
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": "#!/bin/bash"
+        }
+      },
+      "DependsOn": [
+        "SimpleEC2Instance1Role0462CADF"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "SimpleEC2Stack/SimpleEC2Instance1/Resource"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAAE1WOywrCMBBFv8V9OjUVXAtdiDupXxCmU0gfGZkkioT8u6lS0NWFy7kPDVofYb87maevsJ/qhCwE6RYMTqojz1GQVDu4qxGzUCBRLTsfJGJY7Q3Jam1I1iyQOp4/kU0vhTcO6So82LmghE2ZIIxiw+ssHO8r9m9sod+CnLNy3BOMvn7oBvShXB+9tZVEF+xC0H31DYDesLDXAAAA"
+      },
+      "Metadata": {
+        "aws:cdk:path": "SimpleEC2Stack/CDKMetadata/Default"
+      }
+    }
+  },
+  "Parameters": {
+    "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+      "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+    }
+  },
+  "Outputs": {
+    "ExportsOutputRefSimpleEC2Instance1C9F7789C81D3BA8D": {
+      "Value": {
+        "Ref": "SimpleEC2Instance1C9F7789C"
+      },
+      "Export": {
+        "Name": "SimpleEC2Stack:ExportsOutputRefSimpleEC2Instance1C9F7789C81D3BA8D"
+      }
+    },
+    "ExportsOutputFnGetAttSimpleEC2Instance1C9F7789CPublicIp111094A1": {
+      "Value": {
+        "Fn::GetAtt": [
+          "SimpleEC2Instance1C9F7789C",
+          "PublicIp"
+        ]
+      },
+      "Export": {
+        "Name": "SimpleEC2Stack:ExportsOutputFnGetAttSimpleEC2Instance1C9F7789CPublicIp111094A1"
+      }
+    }
+  }
+}

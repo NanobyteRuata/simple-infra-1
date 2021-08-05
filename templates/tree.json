@@ -1,0 +1,700 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Construct",
+          "version": "1.116.0"
+        }
+      },
+      "SimpleEC2Stack": {
+        "id": "SimpleEC2Stack",
+        "path": "SimpleEC2Stack",
+        "children": {
+          "SimpleEC2VPC": {
+            "id": "SimpleEC2VPC",
+            "path": "SimpleEC2Stack/SimpleEC2VPC",
+            "children": {
+              "PublicSubnet1": {
+                "id": "PublicSubnet1",
+                "path": "SimpleEC2Stack/SimpleEC2VPC/PublicSubnet1",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Resource",
+                  "version": "1.116.0"
+                }
+              },
+              "PublicSubnet2": {
+                "id": "PublicSubnet2",
+                "path": "SimpleEC2Stack/SimpleEC2VPC/PublicSubnet2",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Resource",
+                  "version": "1.116.0"
+                }
+              },
+              "PublicSubnet3": {
+                "id": "PublicSubnet3",
+                "path": "SimpleEC2Stack/SimpleEC2VPC/PublicSubnet3",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Resource",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Resource",
+              "version": "1.116.0"
+            }
+          },
+          "SimpleEC2Instance1Role": {
+            "id": "SimpleEC2Instance1Role",
+            "path": "SimpleEC2Stack/SimpleEC2Instance1Role",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SimpleEC2Stack/SimpleEC2Instance1Role/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "ec2.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-iam.CfnRole",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-iam.Role",
+              "version": "1.116.0"
+            }
+          },
+          "SimpleEC2Instance1SG": {
+            "id": "SimpleEC2Instance1SG",
+            "path": "SimpleEC2Stack/SimpleEC2Instance1SG",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SimpleEC2Stack/SimpleEC2Instance1SG/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "SimpleEC2Stack/SimpleEC2Instance1SG",
+                    "groupName": "SimpleEC2Instance1SG",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "description": "Allow all outbound traffic by default",
+                        "ipProtocol": "-1"
+                      }
+                    ],
+                    "securityGroupIngress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 22,
+                        "toPort": 22,
+                        "description": "Allows SSH access from Internet"
+                      },
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 80,
+                        "toPort": 80,
+                        "description": "Allows HTTP access from Internet"
+                      },
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "ipProtocol": "tcp",
+                        "fromPort": 443,
+                        "toPort": 443,
+                        "description": "Allows HTTPS access from Internet"
+                      }
+                    ],
+                    "vpcId": "vpc-07bd7661"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-ec2.CfnSecurityGroup",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-ec2.SecurityGroup",
+              "version": "1.116.0"
+            }
+          },
+          "SimpleEC2Instance1": {
+            "id": "SimpleEC2Instance1",
+            "path": "SimpleEC2Stack/SimpleEC2Instance1",
+            "children": {
+              "InstanceProfile": {
+                "id": "InstanceProfile",
+                "path": "SimpleEC2Stack/SimpleEC2Instance1/InstanceProfile",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::InstanceProfile",
+                  "aws:cdk:cloudformation:props": {
+                    "roles": [
+                      {
+                        "Ref": "SimpleEC2Instance1Role0462CADF"
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-iam.CfnInstanceProfile",
+                  "version": "1.116.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SimpleEC2Stack/SimpleEC2Instance1/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::Instance",
+                  "aws:cdk:cloudformation:props": {
+                    "availabilityZone": "ap-southeast-1a",
+                    "iamInstanceProfile": {
+                      "Ref": "SimpleEC2Instance1InstanceProfileF7476A12"
+                    },
+                    "imageId": {
+                      "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+                    },
+                    "instanceType": "t2.micro",
+                    "keyName": "SimpleInfra1Instance1Key",
+                    "securityGroupIds": [
+                      {
+                        "Fn::GetAtt": [
+                          "SimpleEC2Instance1SGEF604BDA",
+                          "GroupId"
+                        ]
+                      }
+                    ],
+                    "subnetId": "subnet-a86dc1e0",
+                    "tags": [
+                      {
+                        "key": "Name",
+                        "value": "SimpleEC2Stack/SimpleEC2Instance1"
+                      }
+                    ],
+                    "userData": {
+                      "Fn::Base64": "#!/bin/bash"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-ec2.CfnInstance",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-ec2.Instance",
+              "version": "1.116.0"
+            }
+          },
+          "SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": {
+            "id": "SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter",
+            "path": "SimpleEC2Stack/SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter",
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.CfnParameter",
+              "version": "1.116.0"
+            }
+          },
+          "SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118": {
+            "id": "SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118",
+            "path": "SimpleEC2Stack/SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118",
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Resource",
+              "version": "1.116.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "SimpleEC2Stack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "SimpleEC2Stack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.CfnResource",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.116.0"
+            }
+          },
+          "Exports": {
+            "id": "Exports",
+            "path": "SimpleEC2Stack/Exports",
+            "children": {
+              "Output{\"Ref\":\"SimpleEC2Instance1C9F7789C\"}": {
+                "id": "Output{\"Ref\":\"SimpleEC2Instance1C9F7789C\"}",
+                "path": "SimpleEC2Stack/Exports/Output{\"Ref\":\"SimpleEC2Instance1C9F7789C\"}",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.CfnOutput",
+                  "version": "1.116.0"
+                }
+              },
+              "Output{\"Fn::GetAtt\":[\"SimpleEC2Instance1C9F7789C\",\"PublicIp\"]}": {
+                "id": "Output{\"Fn::GetAtt\":[\"SimpleEC2Instance1C9F7789C\",\"PublicIp\"]}",
+                "path": "SimpleEC2Stack/Exports/Output{\"Fn::GetAtt\":[\"SimpleEC2Instance1C9F7789C\",\"PublicIp\"]}",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.CfnOutput",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.116.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Stack",
+          "version": "1.116.0"
+        }
+      },
+      "SimpleInfra1Stack": {
+        "id": "SimpleInfra1Stack",
+        "path": "SimpleInfra1Stack",
+        "children": {
+          "SimpleInfra1BaseEndPointHandler": {
+            "id": "SimpleInfra1BaseEndPointHandler",
+            "path": "SimpleInfra1Stack/SimpleInfra1BaseEndPointHandler",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "SimpleInfra1Stack/SimpleInfra1BaseEndPointHandler/ServiceRole",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SimpleInfra1Stack/SimpleInfra1BaseEndPointHandler/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-iam.CfnRole",
+                      "version": "1.116.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-iam.Role",
+                  "version": "1.116.0"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "SimpleInfra1Stack/SimpleInfra1BaseEndPointHandler/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "SimpleInfra1Stack/SimpleInfra1BaseEndPointHandler/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.AssetStaging",
+                      "version": "1.116.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "SimpleInfra1Stack/SimpleInfra1BaseEndPointHandler/Code/AssetBucket",
+                    "children": {
+                      "Notifications": {
+                        "id": "Notifications",
+                        "path": "SimpleInfra1Stack/SimpleInfra1BaseEndPointHandler/Code/AssetBucket/Notifications",
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/core.Construct",
+                          "version": "1.116.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-s3.BucketBase",
+                      "version": "1.116.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-s3-assets.Asset",
+                  "version": "1.116.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SimpleInfra1Stack/SimpleInfra1BaseEndPointHandler/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Ref": "AssetParametersc5e6829f825b7d30b4381da999a5610e0f406c4e5b67d00f879244f04e269cdcS3Bucket5086E555"
+                      },
+                      "s3Key": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParametersc5e6829f825b7d30b4381da999a5610e0f406c4e5b67d00f879244f04e269cdcS3VersionKey42AC5BC4"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::Split": [
+                                    "||",
+                                    {
+                                      "Ref": "AssetParametersc5e6829f825b7d30b4381da999a5610e0f406c4e5b67d00f879244f04e269cdcS3VersionKey42AC5BC4"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        ]
+                      }
+                    },
+                    "role": {
+                      "Fn::GetAtt": [
+                        "SimpleInfra1BaseEndPointHandlerServiceRole0F34EDDC",
+                        "Arn"
+                      ]
+                    },
+                    "environment": {
+                      "variables": {
+                        "SIMPLE_INFRA_1_INSTANCE_ID": {
+                          "Fn::ImportValue": "SimpleEC2Stack:ExportsOutputRefSimpleEC2Instance1C9F7789C81D3BA8D"
+                        },
+                        "SIMPLE_INFRA_1_INSTANCE_PUBLIC_IP": {
+                          "Fn::ImportValue": "SimpleEC2Stack:ExportsOutputFnGetAttSimpleEC2Instance1C9F7789CPublicIp111094A1"
+                        },
+                        "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+                      }
+                    },
+                    "handler": "index.baseEndpoint",
+                    "runtime": "nodejs12.x"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-lambda.CfnFunction",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-lambda-nodejs.NodejsFunction",
+              "version": "1.116.0"
+            }
+          },
+          "AssetParameters": {
+            "id": "AssetParameters",
+            "path": "SimpleInfra1Stack/AssetParameters",
+            "children": {
+              "c5e6829f825b7d30b4381da999a5610e0f406c4e5b67d00f879244f04e269cdc": {
+                "id": "c5e6829f825b7d30b4381da999a5610e0f406c4e5b67d00f879244f04e269cdc",
+                "path": "SimpleInfra1Stack/AssetParameters/c5e6829f825b7d30b4381da999a5610e0f406c4e5b67d00f879244f04e269cdc",
+                "children": {
+                  "S3Bucket": {
+                    "id": "S3Bucket",
+                    "path": "SimpleInfra1Stack/AssetParameters/c5e6829f825b7d30b4381da999a5610e0f406c4e5b67d00f879244f04e269cdc/S3Bucket",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.CfnParameter",
+                      "version": "1.116.0"
+                    }
+                  },
+                  "S3VersionKey": {
+                    "id": "S3VersionKey",
+                    "path": "SimpleInfra1Stack/AssetParameters/c5e6829f825b7d30b4381da999a5610e0f406c4e5b67d00f879244f04e269cdc/S3VersionKey",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.CfnParameter",
+                      "version": "1.116.0"
+                    }
+                  },
+                  "ArtifactHash": {
+                    "id": "ArtifactHash",
+                    "path": "SimpleInfra1Stack/AssetParameters/c5e6829f825b7d30b4381da999a5610e0f406c4e5b67d00f879244f04e269cdc/ArtifactHash",
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/core.CfnParameter",
+                      "version": "1.116.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.Construct",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.116.0"
+            }
+          },
+          "SimpleInfra1HttpApi": {
+            "id": "SimpleInfra1HttpApi",
+            "path": "SimpleInfra1Stack/SimpleInfra1HttpApi",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SimpleInfra1Stack/SimpleInfra1HttpApi/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Api",
+                  "aws:cdk:cloudformation:props": {
+                    "corsConfiguration": {
+                      "allowMethods": [
+                        "GET"
+                      ],
+                      "allowOrigins": [
+                        "*"
+                      ]
+                    },
+                    "name": "simple-infra-1-api",
+                    "protocolType": "HTTP"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2.CfnApi",
+                  "version": "1.116.0"
+                }
+              },
+              "DefaultStage": {
+                "id": "DefaultStage",
+                "path": "SimpleInfra1Stack/SimpleInfra1HttpApi/DefaultStage",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SimpleInfra1Stack/SimpleInfra1HttpApi/DefaultStage/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Stage",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "SimpleInfra1HttpApi18CAFFD4"
+                        },
+                        "stageName": "$default",
+                        "autoDeploy": true
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2.CfnStage",
+                      "version": "1.116.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2.HttpStage",
+                  "version": "1.116.0"
+                }
+              },
+              "GET--": {
+                "id": "GET--",
+                "path": "SimpleInfra1Stack/SimpleInfra1HttpApi/GET--",
+                "children": {
+                  "SimpleInfra1StackSimpleInfra1HttpApiGET81F4DA60-Permission": {
+                    "id": "SimpleInfra1StackSimpleInfra1HttpApiGET81F4DA60-Permission",
+                    "path": "SimpleInfra1Stack/SimpleInfra1HttpApi/GET--/SimpleInfra1StackSimpleInfra1HttpApiGET81F4DA60-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "SimpleInfra1BaseEndPointHandlerA6E955A5",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:ap-southeast-1:437243966461:",
+                              {
+                                "Ref": "SimpleInfra1HttpApi18CAFFD4"
+                              },
+                              "/*/*/"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-lambda.CfnPermission",
+                      "version": "1.116.0"
+                    }
+                  },
+                  "HttpIntegration-2cd316e215ccdd260a1ca859a23ea78d": {
+                    "id": "HttpIntegration-2cd316e215ccdd260a1ca859a23ea78d",
+                    "path": "SimpleInfra1Stack/SimpleInfra1HttpApi/GET--/HttpIntegration-2cd316e215ccdd260a1ca859a23ea78d",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "SimpleInfra1Stack/SimpleInfra1HttpApi/GET--/HttpIntegration-2cd316e215ccdd260a1ca859a23ea78d/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "SimpleInfra1HttpApi18CAFFD4"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "SimpleInfra1BaseEndPointHandlerA6E955A5",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/aws-apigatewayv2.CfnIntegration",
+                          "version": "1.116.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2.HttpIntegration",
+                      "version": "1.116.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SimpleInfra1Stack/SimpleInfra1HttpApi/GET--/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "SimpleInfra1HttpApi18CAFFD4"
+                        },
+                        "routeKey": "GET /",
+                        "authorizationType": "NONE",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "SimpleInfra1HttpApiGETHttpIntegration2cd316e215ccdd260a1ca859a23ea78d1FB2489C"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2.CfnRoute",
+                      "version": "1.116.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2.HttpRoute",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/aws-apigatewayv2.HttpApi",
+              "version": "1.116.0"
+            }
+          },
+          "SimpleInfra1HttpApiExport": {
+            "id": "SimpleInfra1HttpApiExport",
+            "path": "SimpleInfra1Stack/SimpleInfra1HttpApiExport",
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.CfnOutput",
+              "version": "1.116.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "SimpleInfra1Stack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "SimpleInfra1Stack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "@aws-cdk/core.CfnResource",
+                  "version": "1.116.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/core.Construct",
+              "version": "1.116.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/core.Stack",
+          "version": "1.116.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "@aws-cdk/core.App",
+      "version": "1.116.0"
+    }
+  }
+}
