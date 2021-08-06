@@ -123,5 +123,10 @@ export class SimpleAutoScalingStack extends cdk.Stack {
         interval: cdk.Duration.minutes(1),
       },
     });
+
+    new cdk.CfnOutput(this, "LoadBalancerDNSAddressExport", {
+      exportName: "LoadBalancerDNSAddress",
+      value: listener.loadBalancer.loadBalancerDnsName,
+    });
   }
 }
